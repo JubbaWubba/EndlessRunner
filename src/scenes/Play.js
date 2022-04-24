@@ -32,6 +32,8 @@ class Play extends Phaser.Scene {
         this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height, 'monster',0,).setOrigin(0.5, 0);
         //Initialize Health Variable
         this.health = 3;
+        //Game Over
+        this.GameOver = false;
 
         // display score
          let scoreConfig = {
@@ -60,15 +62,38 @@ class Play extends Phaser.Scene {
         
     }
     update() {
+      if(!this.GameOver) {
       //movement for player + obstacle
       this.player.update()
       this.obstacle1.update()
+      }
+
+      // Collision Check
+      if(this.checkCollision(this.player, this.obstacle1)) {
+        this.health -= 1;
+        this.obstacle1.reset();
+    }
 
       //Distance Calc
       this.distanceupdate()
-
-
       }
+
+
+
+
+
+
+      checkCollision(player, obstacle) {
+        // simple AABB checking
+        if (player.x < obstacle.x + obstacle.width && 
+          player.x + player.width > obstacle.x && 
+          player.y < obstacle.y + obstacle.height &&
+          player.height + player.y > obstacle. y) {
+                return true;
+        } else {
+            return false;
+        }
+    }
 
       distanceupdate() {
         this.clock.delay += 90;
