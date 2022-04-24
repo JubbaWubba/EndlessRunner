@@ -1,5 +1,5 @@
-// Monster prefab
-class Monster extends Phaser.GameObjects.Sprite {
+// Obstacle prefab
+class Obstacle extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
 
