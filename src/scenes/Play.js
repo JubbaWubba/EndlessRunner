@@ -29,7 +29,7 @@ class Play extends Phaser.Scene {
         //create player avatar
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
         // create Obstacle
-        this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
         //Initialize Health Variable
         this.health = 3;
         //Game Over
@@ -49,12 +49,18 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
                 }
 
-        this.healthbar = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.health, scoreConfig);
-        //clock
+        // Healthbar text, edit later
+        this.healthbar = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 'Health: '+this.health, scoreConfig);
+        //clock timer for the score
         this.clock = this.time.delayedCall(1000, () => {
-
       }, null, this)
+      //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+250, borderUISize + borderPadding*2, this.remaining, scoreConfig);
+      // Timer event to increase player height
+      this.playerclock = this.time.delayedCall(1000, () => {
+        console.log('test')
+        this.player.y -= 10;
+      }, null, this)
 
       
 
@@ -71,13 +77,23 @@ class Play extends Phaser.Scene {
       // Collision Check
       if(this.checkCollision(this.player, this.obstacle1)) {
         this.health -= 1;
+        this.healthbar.text = this.health
         this.obstacle1.reset();
     }
 
       //Distance Calc
+      if(!this.GameOver) {
       this.distanceupdate()
       }
 
+
+      if(this.health ==0) {
+        this.clock.paused= true;
+        this.GameOver = true;
+        this.add.text(game.config.width/2, game.config.height/2, 'Score: '+this.distancescore.text, this.scoreConfig).setOrigin(0.5);
+
+      }
+      }
 
 
 
@@ -98,7 +114,8 @@ class Play extends Phaser.Scene {
       distanceupdate() {
         this.clock.delay += 90;
         this.remaining = this.clock.getOverallRemainingSeconds(); 
-        this.distancescore.text =Math.floor(this.remaining * 1) +"m";
+        this.score= Math.floor(this.remaining * 1) +"m";
+        this.distancescore.text =this.score
     }
   }
 
