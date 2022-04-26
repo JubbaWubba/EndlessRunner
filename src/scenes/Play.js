@@ -31,6 +31,9 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
         // create Obstacle
         this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle2 = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle3 = new Obstacle(this, game.config.width/2-240, game.config.height-1200, 'monster',0,).setOrigin(0.5, 0);
+
         //Initialize Health Variable
         this.health = 3;
         //Game Over
@@ -58,7 +61,7 @@ class Play extends Phaser.Scene {
       //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+250, borderUISize + borderPadding*2, this.remaining, scoreConfig);
       // Timer event to increase player height
-      this.movementtimer = this.time.addEvent({ delay: 100, callback: this.test(), callbackScope: this, loop: true });
+      this.obstacleTimer = this.time.addEvent({ delay: 100, callback: this.test, callbackScope: this, loop: true});
 
       
 
@@ -66,6 +69,7 @@ class Play extends Phaser.Scene {
         
     }
     update() {
+      //Restart
       if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
         this.scene.restart();
     }
@@ -73,6 +77,8 @@ class Play extends Phaser.Scene {
       //movement for player + obstacle
       this.player.update()
       this.obstacle1.update()
+      this.obstacle2.update()
+      this.obstacle3.update()
       }
 
       // Collision Check
@@ -80,6 +86,16 @@ class Play extends Phaser.Scene {
         this.hostilehit();
         this.obstacle1.reset();
     }
+
+    if(this.checkCollision(this.player, this.obstacle2)) {
+      this.hostilehit();
+      this.obstacle2.reset();
+  }
+
+  if(this.checkCollision(this.player, this.obstacle3)) {
+    this.hostilehit();
+    this.obstacle3.reset();
+}
 
       //Distance Calc
       if(!this.GameOver) {
@@ -126,8 +142,8 @@ class Play extends Phaser.Scene {
       this.player.y = game.config.height - borderUISize - borderPadding;
     }
     test() {
-      this.player.y += -100;
-      console.log("test")
+      if(this.player.y >= (game.config.height - borderUISize - borderPadding)/2)
+        this.player.y += -1;
     }
   }
 
