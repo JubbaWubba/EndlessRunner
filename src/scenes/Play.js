@@ -59,7 +59,7 @@ class Play extends Phaser.Scene {
       // Timer event to increase player height
       this.playerclock = this.time.delayedCall(1000, () => {
         console.log('test')
-        this.player.y -= 10;
+        this.player.y -= 50;
       }, null, this)
 
       
@@ -78,6 +78,7 @@ class Play extends Phaser.Scene {
       if(this.checkCollision(this.player, this.obstacle1)) {
         this.health -= 1;
         this.healthbar.text = this.health
+        this.player.y = game.config.height - borderUISize - borderPadding;
         this.obstacle1.reset();
     }
 
