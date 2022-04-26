@@ -25,6 +25,7 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         KeyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
   
         //create player avatar
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
@@ -68,6 +69,9 @@ class Play extends Phaser.Scene {
         
     }
     update() {
+      if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+        this.scene.restart();
+    }
       if(!this.GameOver) {
       //movement for player + obstacle
       this.player.update()
@@ -92,6 +96,8 @@ class Play extends Phaser.Scene {
         this.clock.paused= true;
         this.GameOver = true;
         this.add.text(game.config.width/2, game.config.height/2, 'Score: '+this.distancescore.text, this.scoreConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/4, 'Press R to Reset', this.scoreConfig).setOrigin(0.5);
+
 
       }
       }
