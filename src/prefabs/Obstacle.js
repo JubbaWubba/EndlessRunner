@@ -18,6 +18,6 @@ class Obstacle extends Phaser.GameObjects.Sprite {
     reset() {
         this.y = game.config.height - 800; //reset function
         //randomizes x position
-        this.x = Phaser.Math.Between(this.width, -this.width)
+        this.x = Phaser.Math.Between(borderUISize + this.width, game.config.width - borderUISize - this.width)
     }
 }

@@ -4,7 +4,7 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('monster', './assets/monster.png');
+        this.load.image('monster', './assets/spaceship.png');
         this.load.image('player', './assets/player.png');
 
       }
@@ -58,10 +58,7 @@ class Play extends Phaser.Scene {
       //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+250, borderUISize + borderPadding*2, this.remaining, scoreConfig);
       // Timer event to increase player height
-      this.playerclock = this.time.delayedCall(1000, () => {
-        console.log('test')
-        this.player.y -= 50;
-      }, null, this)
+      this.movementtimer = this.time.addEvent({ delay: 100, callback: this.test(), callbackScope: this, loop: true });
 
       
 
@@ -80,9 +77,7 @@ class Play extends Phaser.Scene {
 
       // Collision Check
       if(this.checkCollision(this.player, this.obstacle1)) {
-        this.health -= 1;
-        this.healthbar.text = this.health
-        this.player.y = game.config.height - borderUISize - borderPadding;
+        this.hostilehit();
         this.obstacle1.reset();
     }
 
@@ -123,6 +118,16 @@ class Play extends Phaser.Scene {
         this.remaining = this.clock.getOverallRemainingSeconds(); 
         this.score= Math.floor(this.remaining * 1) +"m";
         this.distancescore.text =this.score
+    }
+
+    hostilehit() {
+      this.health -= 1;
+      this.healthbar.text = this.health
+      this.player.y = game.config.height - borderUISize - borderPadding;
+    }
+    test() {
+      this.player.y += -100;
+      console.log("test")
     }
   }
 
