@@ -10,7 +10,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
     update() {
         this.y += this.moveSpeed;
         // wrap around from left edge to right edge
-        if(this.y <=  -game.config.height) {
+        if(-this.y <=  -game.config.height) {
             console.log(-game.config.height)
             this.reset();
         }
