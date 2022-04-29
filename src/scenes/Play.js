@@ -36,6 +36,8 @@ class Play extends Phaser.Scene {
 
         //Initialize Health Variable
         this.health = 3;
+        // Initialize score multiplyer
+        this.scoremultiplyer =1;
         //Game Over
         this.GameOver = false;
 
@@ -61,9 +63,10 @@ class Play extends Phaser.Scene {
       //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+250, borderUISize + borderPadding*2, this.remaining, scoreConfig);
       // Timer event to increase player height
-      this.obstacleTimer = this.time.addEvent({ delay: 100, callback: this.test, callbackScope: this, loop: true});
+      this.obstacleTimer = this.time.addEvent({ delay: 500, callback: this.test, callbackScope: this, loop: true});
+      // Timer to increase both time and 
+      this.increaseTimer = this.time.addEvent({ delay: 5000, callback: this.speedmultiplier, callbackScope: this, loop: true});
 
-      
 
 
         
@@ -130,20 +133,41 @@ class Play extends Phaser.Scene {
     }
 
       distanceupdate() {
-        this.clock.delay += 90;
+        this.clock.delay += 90 * this.scoremultiplyer;
         this.remaining = this.clock.getOverallRemainingSeconds(); 
         this.score= Math.floor(this.remaining * 1) +"m";
         this.distancescore.text =this.score
     }
 
+
+
+    // What happens when the player hits an obstacle
     hostilehit() {
+      // Health display -1
       this.health -= 1;
       this.healthbar.text = this.health
+      // reset player back down
       this.player.y = game.config.height - borderUISize - borderPadding;
+      // reset obstacle movespeed back to default
+      this.obstacle1.moveSpeed =6;
+      this.obstacle2.moveSpeed =6;
+      this.obstacle3.moveSpeed =6;
+      // reset score multiplyer
+      this.scoremultiplyer = 1;
     }
+
+
+    //Increase timer function
     test() {
       if(this.player.y >= (game.config.height - borderUISize - borderPadding)/2)
         this.player.y += -1;
+    }
+
+    speedmultiplier() {
+      this.obstacle1.moveSpeed +=1;
+      this.obstacle2.moveSpeed +=1;
+      this.obstacle3.moveSpeed +=1;
+      this.scoremultiplyer += 1;
     }
   }
 
