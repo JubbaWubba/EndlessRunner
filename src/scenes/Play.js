@@ -163,6 +163,7 @@ class Play extends Phaser.Scene {
         this.player.y += -1;
     }
 
+    // Speed and score multiplyer
     speedmultiplier() {
       this.obstacle1.moveSpeed +=1;
       this.obstacle2.moveSpeed +=1;
