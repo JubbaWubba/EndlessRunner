@@ -159,15 +159,17 @@ class Play extends Phaser.Scene {
 
     //Increase timer function
     test() {
+      if(!this.GameOver) {
       if(this.player.y >= (game.config.height - borderUISize - borderPadding)/2)
         this.player.y += -1;
     }
+  }
 
     // Speed and score multiplyer
     speedmultiplier() {
-      this.obstacle1.moveSpeed +=1;
-      this.obstacle2.moveSpeed +=1;
-      this.obstacle3.moveSpeed +=1;
+      this.obstacle1.moveSpeed +=.5;
+      this.obstacle2.moveSpeed +=.5;
+      this.obstacle3.moveSpeed +=.5;
       this.scoremultiplyer += 1;
     }
   }
