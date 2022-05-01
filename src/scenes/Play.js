@@ -6,7 +6,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('monster', './assets/spaceship.png');
         this.load.image('player', './assets/player.png');
-        this.load.audio('drive', './assets/driving2.wav');
+        this.load.audio('drive', './assets/driving2.wav'); // Credit to user PeteBarry @freesound.org
         this.load.audio('hit', './assets/collision.wav');
       }
 
