@@ -6,11 +6,11 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('monster', './assets/spaceship.png');
         this.load.image('player', './assets/player.png');
-
+        this.load.audio('drive', './assets/driving2.wav');
+        this.load.audio('hit', './assets/collision.wav');
       }
 
     create() {
-
        // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -67,6 +67,10 @@ class Play extends Phaser.Scene {
       // Timer to increase both time and 
       this.increaseTimer = this.time.addEvent({ delay: 5000, callback: this.speedmultiplier, callbackScope: this, loop: true});
 
+      //Driving audio stuff
+      this.driveaudio = this.sound.add("drive", { loop: true, volume: 1 });
+      this.hitaudio = this.sound.add("hit", {volume: 1 });
+      this.driveaudio.play();
 
 
         
@@ -100,12 +104,15 @@ class Play extends Phaser.Scene {
     this.obstacle3.reset();
 }
 
+if (!this.noisehit) {
+
+}
       //Distance Calc
       if(!this.GameOver) {
       this.distanceupdate()
       }
 
-
+      // Scoring
       if(this.health ==0) {
         this.clock.paused= true;
         this.GameOver = true;
@@ -154,6 +161,11 @@ class Play extends Phaser.Scene {
       this.obstacle3.moveSpeed =6;
       // reset score multiplyer
       this.scoremultiplyer = 1;
+      this.driveaudio.stop();
+      this.hitaudio.play()
+      if(this.health !=0) {
+      this.driveaudio.play({delay: 0.5});
+      }
     }
 
 
