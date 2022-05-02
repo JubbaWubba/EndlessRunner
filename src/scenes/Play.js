@@ -8,7 +8,9 @@ class Play extends Phaser.Scene {
         this.load.image('player', './assets/player.png');
         this.load.audio('drive', './assets/driving2.wav'); // Credit to user PeteBarry @freesound.org
         this.load.audio('hit', './assets/collision.wav');
-        this.load.image('background', './assets/BGTileDesert.png');
+        this.load.image('background', './assets/sand_background.png');
+        this.load.spritesheet('PlayerCar', './assets/PlayerCar01.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 15});
+
       }
 
     create() {
@@ -27,9 +29,16 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         KeyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-  
+
         //create player avatar
+        //animations 
+        this.anims.create({
+            key: 'Walk',
+            frames: this.anims.generateFrameNumbers('PlayerCar', { start: 0, end: 15, first: 0}),
+            frameRate: 30
+        });
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
+        
         // create Obstacle
         this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
         this.obstacle2 = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
