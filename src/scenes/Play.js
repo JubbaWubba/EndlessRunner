@@ -8,15 +8,19 @@ class Play extends Phaser.Scene {
         this.load.image('player', './assets/player.png');
         this.load.audio('drive', './assets/driving2.wav'); // Credit to user PeteBarry @freesound.org
         this.load.audio('hit', './assets/collision.wav');
+        this.load.image('background', './assets/BGTileDesert.png');
       }
 
     create() {
-       // white borders
+      //Background 
+
+      this.backgroundImg = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+
+        // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-
 
         //Key Input Defined 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -96,6 +100,9 @@ class Play extends Phaser.Scene {
         
     }
     update() {
+      this.backgroundImg.tilePositionY -= 4;
+
+
       //Restart
       if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
         this.scene.restart();
