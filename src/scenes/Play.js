@@ -17,9 +17,6 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
 
-        //UI
-        this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-
 
         //Key Input Defined 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -41,27 +38,50 @@ class Play extends Phaser.Scene {
         //Game Over
         this.GameOver = false;
 
-        // display score
-         let scoreConfig = {
-           fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-            top: 5,
-            bottom: 5,
-                  },
-            fixedWidth: 100
-                }
+       // display score
+       let scoreConfig = {
+        fontFamily: 'Haettenschweiler',
+         fontSize: '35px',
+         //backgroundColor: '#F3B141',
+         color: '#e5e1e1',
+         stroke: '#000000',
+         align: 'right',
+         padding: {
+         top: 5,
+         bottom: 5,
+               },
+         fixedWidth: 100
+             }
 
-        // Healthbar text, edit later
-        this.healthbar = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 'Health: '+this.health, scoreConfig);
-        //clock timer for the score
-        this.clock = this.time.delayedCall(1000, () => {
-      }, null, this)
-      //distance score text
-      this.distancescore = this.add.text(borderUISize + borderPadding+250, borderUISize + borderPadding*2, this.remaining, scoreConfig);
+       let healthConfig = {
+         fontFamily: 'Haettenschweiler',
+             fontSize: '25px',
+             //backgroundColor: '#F3B141',
+             color: '#cb0000',
+             stroke: '#000000',
+             align: 'right',
+             padding: {
+             top: 5,
+             bottom: 5,
+                 },
+             fixedWidth: 100
+                 }
+                 
+     // Healthbar text, edit later
+     this.healthbar = this.add.text(borderUISize*-0.5 + borderPadding*2.8, borderUISize + borderPadding*1.5, this.health, scoreConfig);
+     var healthText = this.add.text(borderUISize*-0.5 + borderPadding, borderUISize + borderPadding*2.2, "Lives: ", healthConfig);
+     var healthTxt = this.healthbar;
+     healthTxt.setStroke('#000000', 5);
+     healthText.setStroke('#000000', 5);
+     //clock timer for the score
+     this.clock = this.time.delayedCall(1000, () => {
+   }, null, this)
+   //distance score text
+      this.distancescore = this.add.text(borderUISize + borderPadding+450, borderUISize + borderPadding*1.5, this.remaining, scoreConfig);
+      var distanceText = this.add.text(borderUISize*13 + borderPadding, borderUISize + borderPadding*2.2, "Distance: ", healthConfig);
+      var distanceTxt = this.distancescore;
+      distanceText.setStroke('#000000', 5);
+      distanceTxt.setStroke('#000000', 5);
       // Timer event to increase player height
       this.obstacleTimer = this.time.addEvent({ delay: 500, callback: this.test, callbackScope: this, loop: true});
       // Timer to increase both time and 
@@ -116,10 +136,10 @@ if (!this.noisehit) {
       if(this.health ==0) {
         this.clock.paused= true;
         this.GameOver = true;
-        this.add.text(game.config.width/2, game.config.height/2, 'Score: '+this.distancescore.text, this.scoreConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/4, 'Press R to Reset', this.scoreConfig).setOrigin(0.5);
-
-
+        var end_score = this.add.text(game.config.width/2, game.config.height/2, 'Score: '+this.distancescore.text, this.scoreConfig).setOrigin(0.5);
+        var reset_prompt = this.add.text(game.config.width/2, game.config.height/2.2, 'Press R to Reset', this.scoreConfig).setOrigin(0.5);
+        end_score.setStroke('#000000', 5);
+        reset_prompt.setStroke('#000000', 5);
       }
       }
 
