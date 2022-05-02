@@ -8,9 +8,10 @@ class Play extends Phaser.Scene {
         this.load.image('player', './assets/player.png');
         this.load.audio('drive', './assets/driving2.wav'); // Credit to user PeteBarry @freesound.org
         this.load.audio('hit', './assets/collision.wav');
+        this.load.audio('backmusic', './assets/backgroundmusic.wav'); //Credit to Ross Budgen on Youtube
         this.load.image('background', './assets/sand_background.png');
         this.load.spritesheet('PlayerCar', './assets/PlayerCar01.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 15});
-
+      
       }
 
     create() {
@@ -36,9 +37,9 @@ class Play extends Phaser.Scene {
             key: 'Walk',
             frames: this.anims.generateFrameNumbers('PlayerCar', { start: 0, end: 15, first: 0}),
             frameRate: 30
-        });
+        }); 
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
-        
+
         // create Obstacle
         this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
         this.obstacle2 = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
@@ -89,7 +90,7 @@ class Play extends Phaser.Scene {
      //clock timer for the score
      this.clock = this.time.delayedCall(1000, () => {
    }, null, this)
-   //distance score text
+      //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+450, borderUISize + borderPadding*1.5, this.remaining, scoreConfig);
       var distanceText = this.add.text(borderUISize*13 + borderPadding, borderUISize + borderPadding*2.2, "Distance: ", healthConfig);
       var distanceTxt = this.distancescore;
@@ -102,8 +103,10 @@ class Play extends Phaser.Scene {
 
       //Driving audio stuff
       this.driveaudio = this.sound.add("drive", { loop: true, volume: 1 });
+      this.backaudio = this.sound.add("backmusic", { loop: true, volume: 1 });
       this.hitaudio = this.sound.add("hit", {volume: 1 });
       this.driveaudio.play();
+      this.backaudio.play();
 
 
         
