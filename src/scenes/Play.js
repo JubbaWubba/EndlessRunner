@@ -22,10 +22,10 @@ class Play extends Phaser.Scene {
       this.backgroundImg = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
         // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xe9b669).setOrigin(0, 0);
+        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xe9b669).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xe9b669).setOrigin(0, 0);
+        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xe9b669).setOrigin(0, 0);
 
         //Key Input Defined 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -124,7 +124,7 @@ class Play extends Phaser.Scene {
    }, null, this)
       //distance score text
       this.distancescore = this.add.text(borderUISize + borderPadding+450, borderUISize + borderPadding*1.5, this.remaining, scoreConfig);
-      var distanceText = this.add.text(borderUISize*13 + borderPadding, borderUISize + borderPadding*2.2, "Distance: ", healthConfig);
+      var distanceText = this.add.text(borderUISize*12.5 + borderPadding, borderUISize + borderPadding*2.2, "Distance:  ", healthConfig);
       var distanceTxt = this.distancescore;
       distanceText.setStroke('#000000', 5);
       distanceTxt.setStroke('#000000', 5);
@@ -141,7 +141,9 @@ class Play extends Phaser.Scene {
 
     }
     update() {
+      if (!this.GameOver) {
       this.backgroundImg.tilePositionY -= this.scrollvar;
+      }
       //Player avatar movement
       this.playeravatar.x = this.player.x
       this.playeravatar.y = this.player.y
