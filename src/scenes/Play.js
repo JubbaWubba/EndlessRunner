@@ -62,15 +62,15 @@ class Play extends Phaser.Scene {
         frameRate: 30
        }); 
        
-        this.obstacle1p = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle1p = new Obstacle(this, game.config.width/2, game.config.height-800, 'player',0,).setOrigin(0.5, 0);
         this.obstacle1 = this.add.sprite(this.obstacle1p.x, this.obstacle1p.y, 'Bug1').setOrigin(0.5, 0);
         this.obstacle1.play({ key: 'Bug1w', repeat: 40000000000 });
 
-        this.obstacle2p = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle2p = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'player',0,).setOrigin(0.5, 0);
         this.obstacle2 = this.add.sprite(this.obstacle2p.x, this.obstacle2p.y, 'Bug2').setOrigin(0.5, 0);
         this.obstacle2.play({ key: 'Bug2w', repeat: 40000000000 });
 
-        this.obstacle3p = new Obstacle(this, game.config.width/2-240, game.config.height-1200, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle3p = new Obstacle(this, game.config.width/2-240, game.config.height-1200, 'player',0,).setOrigin(0.5, 0);
         this.obstacle3 = this.add.sprite(this.obstacle3p.x, this.obstacle3p.y, 'Bug3').setOrigin(0.5, 0);
         this.obstacle3.play({ key: 'Bug3w', repeat: 40000000000 });
 
@@ -262,11 +262,13 @@ if (!this.noisehit) {
 
     // Speed and score multiplyer
     speedmultiplier() {
-      this.obstacle1.moveSpeed +=.5;
-      this.obstacle2.moveSpeed +=.5;
-      this.obstacle3.moveSpeed +=.5;
+      // Bugs
+      this.obstacle1.moveSpeed +=1;
+      this.obstacle2.moveSpeed +=1;
+      this.obstacle3.moveSpeed +=1;
       this.scoremultiplyer += 1;
-      if(this.scrollvar <= 10) {
+      // Background Scrolling Speed
+      if(this.scrollvar <= 6) {
         this.scrollvar += 1
       }
 

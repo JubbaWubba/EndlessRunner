@@ -5,7 +5,7 @@ class Player extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);   // add to existing scene
         this.ML = leftMove;
         this.MR =RightMove;
-        this.moveSpeed = 20;
+        this.moveSpeed = 10;
 
 
     }
