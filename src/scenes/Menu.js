@@ -4,7 +4,7 @@ class Menu extends Phaser.Scene {
     }
     
     preload() {
-
+      this.load.image('TitleScreen', './assets/DDTitleScreen.png');
     }
 
     create() {
@@ -23,7 +23,8 @@ class Menu extends Phaser.Scene {
     //define key
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     //text
-    this.add.text(game.config.width/2, game.config.height/2, 'Left Arrow to begin', menuConfig).setOrigin(0.5);
+    this.logo=this.add.sprite(320,240,"TitleScreen")
+
 
 
     }
