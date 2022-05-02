@@ -11,12 +11,14 @@ class Play extends Phaser.Scene {
         this.load.audio('backmusic', './assets/backgroundmusic.wav'); //Credit to Ross Budgen on Youtube
         this.load.image('background', './assets/sand_background.png');
         this.load.spritesheet('PlayerCar', './assets/PlayerCar01.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 15});
-      
+        this.load.spritesheet('Bug1', './assets/Bug01.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('Bug2', './assets/Bug02.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 3});
+        this.load.spritesheet('Bug3', './assets/Bug03.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 3});
+
       }
 
     create() {
       //Background 
-
       this.backgroundImg = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
         // white borders
@@ -34,23 +36,51 @@ class Play extends Phaser.Scene {
         //create player avatar
         //animations 
         this.anims.create({
-            key: 'Walk',
+            key: 'walk',
             frames: this.anims.generateFrameNumbers('PlayerCar', { start: 0, end: 15, first: 0}),
             frameRate: 30
         }); 
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
         this.playeravatar = this.add.sprite(this.player.x, this.player.y, 'PlayerCar').setOrigin(0.5, 0);
-        this.playeravatar.anims.play('walk')
+        this.playeravatar.play({ key: 'walk', repeat: 40000000000 });
+
 
         // create Obstacle
-        this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
-        this.obstacle2 = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
-        this.obstacle3 = new Obstacle(this, game.config.width/2-240, game.config.height-1200, 'monster',0,).setOrigin(0.5, 0);
+        this.anims.create({
+          key: 'Bug1w',
+          frames: this.anims.generateFrameNumbers('Bug1', { start: 0, end: 3, first: 0}),
+          frameRate: 30
+      }); 
+        this.anims.create({
+        key: 'Bug2w',
+        frames: this.anims.generateFrameNumbers('Bug2', { start: 0, end: 3, first: 0}),
+        frameRate: 30
+      }); 
+        this.anims.create({
+        key: 'Bug3w',
+        frames: this.anims.generateFrameNumbers('Bug3', { start: 0, end: 3, first: 0}),
+        frameRate: 30
+       }); 
+       
+        this.obstacle1p = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle1 = this.add.sprite(this.obstacle1p.x, this.obstacle1p.y, 'Bug1').setOrigin(0.5, 0);
+        this.obstacle1.play({ key: 'Bug1w', repeat: 40000000000 });
 
+        this.obstacle2p = new Obstacle(this, game.config.width/2+240, game.config.height-1000, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle2 = this.add.sprite(this.obstacle2p.x, this.obstacle2p.y, 'Bug2').setOrigin(0.5, 0);
+        this.obstacle2.play({ key: 'Bug2w', repeat: 40000000000 });
+
+        this.obstacle3p = new Obstacle(this, game.config.width/2-240, game.config.height-1200, 'monster',0,).setOrigin(0.5, 0);
+        this.obstacle3 = this.add.sprite(this.obstacle3p.x, this.obstacle3p.y, 'Bug3').setOrigin(0.5, 0);
+        this.obstacle3.play({ key: 'Bug3w', repeat: 40000000000 });
+
+  
         //Initialize Health Variable
         this.health = 3;
         // Initialize score multiplyer
         this.scoremultiplyer =1;
+        // Scroll Speed
+        this.scrollvar = 2;
         //Game Over
         this.GameOver = false;
 
@@ -99,7 +129,7 @@ class Play extends Phaser.Scene {
       distanceText.setStroke('#000000', 5);
       distanceTxt.setStroke('#000000', 5);
       // Timer event to increase player height
-      this.obstacleTimer = this.time.addEvent({ delay: 500, callback: this.test, callbackScope: this, loop: true});
+      this.obstacleTimer = this.time.addEvent({ delay: 150, callback: this.test, callbackScope: this, loop: true});
       // Timer to increase both time and 
       this.increaseTimer = this.time.addEvent({ delay: 5000, callback: this.speedmultiplier, callbackScope: this, loop: true});
 
@@ -107,42 +137,51 @@ class Play extends Phaser.Scene {
       this.driveaudio = this.sound.add("drive", { loop: true, volume: .9 });
       this.backaudio = this.sound.add("backmusic", { loop: true, volume: .10 });
       this.hitaudio = this.sound.add("hit", {volume: 2 });
-      this.driveaudio.play();
       this.backaudio.play();
-    
-        
+
     }
     update() {
-      this.backgroundImg.tilePositionY -= 4;
+      this.backgroundImg.tilePositionY -= this.scrollvar;
+      //Player avatar movement
       this.playeravatar.x = this.player.x
       this.playeravatar.y = this.player.y
-
+      // Bug movement
+      this.obstacle1.y = this.obstacle1p.y
+      this.obstacle1.x = this.obstacle1p.x
+      this.obstacle2.y = this.obstacle2p.y
+      this.obstacle2.x = this.obstacle2p.x
+      this.obstacle3.y = this.obstacle3p.y
+      this.obstacle3.x = this.obstacle3p.x
+      if (this.GameOver) {
+        this.playeravatar.anims.stop()
+      }
       //Restart
       if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+        this.backaudio.stop()
         this.scene.restart();
     }
       if(!this.GameOver) {
       //movement for player + obstacle
       this.player.update()
-      this.obstacle1.update()
-      this.obstacle2.update()
-      this.obstacle3.update()
+      this.obstacle1p.update()
+      this.obstacle2p.update()
+      this.obstacle3p.update()
       }
 
       // Collision Check
       if(this.checkCollision(this.player, this.obstacle1)) {
         this.hostilehit();
-        this.obstacle1.reset();
+        this.obstacle1p.reset();
     }
 
     if(this.checkCollision(this.player, this.obstacle2)) {
       this.hostilehit();
-      this.obstacle2.reset();
+      this.obstacle2p.reset();
   }
 
   if(this.checkCollision(this.player, this.obstacle3)) {
     this.hostilehit();
-    this.obstacle3.reset();
+    this.obstacle3p.reset();
 }
 
 if (!this.noisehit) {
@@ -202,11 +241,14 @@ if (!this.noisehit) {
       this.obstacle3.moveSpeed =6;
       // reset score multiplyer
       this.scoremultiplyer = 1;
+      //audio
       this.driveaudio.stop();
       this.hitaudio.play()
       if(this.health !=0) {
       this.driveaudio.play({delay: 0.5});
       }
+      //reset scroll speed
+      this.scrollvar =2
     }
 
 
@@ -224,6 +266,10 @@ if (!this.noisehit) {
       this.obstacle2.moveSpeed +=.5;
       this.obstacle3.moveSpeed +=.5;
       this.scoremultiplyer += 1;
+      if(this.scrollvar <= 10) {
+        this.scrollvar += 1
+      }
+
     }
   }
 
