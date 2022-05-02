@@ -39,6 +39,8 @@ class Play extends Phaser.Scene {
             frameRate: 30
         }); 
         this.player = new Player(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'player',0,keyLEFT, keyRIGHT, KeyUp).setOrigin(0.5, 0);
+        this.playeravatar = this.add.sprite(this.player.x, this.player.y, 'PlayerCar').setOrigin(0.5, 0);
+        this.playeravatar.anims.play('walk')
 
         // create Obstacle
         this.obstacle1 = new Obstacle(this, game.config.width/2, game.config.height-800, 'monster',0,).setOrigin(0.5, 0);
@@ -102,18 +104,18 @@ class Play extends Phaser.Scene {
       this.increaseTimer = this.time.addEvent({ delay: 5000, callback: this.speedmultiplier, callbackScope: this, loop: true});
 
       //Driving audio stuff
-      this.driveaudio = this.sound.add("drive", { loop: true, volume: 1 });
-      this.backaudio = this.sound.add("backmusic", { loop: true, volume: 1 });
-      this.hitaudio = this.sound.add("hit", {volume: 1 });
+      this.driveaudio = this.sound.add("drive", { loop: true, volume: .9 });
+      this.backaudio = this.sound.add("backmusic", { loop: true, volume: .10 });
+      this.hitaudio = this.sound.add("hit", {volume: 2 });
       this.driveaudio.play();
       this.backaudio.play();
-
-
+    
         
     }
     update() {
       this.backgroundImg.tilePositionY -= 4;
-
+      this.playeravatar.x = this.player.x
+      this.playeravatar.y = this.player.y
 
       //Restart
       if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
