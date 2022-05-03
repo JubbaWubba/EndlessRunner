@@ -157,6 +157,7 @@ class Play extends Phaser.Scene {
       if (this.GameOver) {
         this.playeravatar.anims.stop()
       }
+
       //Restart
       if(this.GameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
         this.backaudio.stop()
