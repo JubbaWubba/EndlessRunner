@@ -1,3 +1,12 @@
+// Collaborators: Gabriel Rivera, Arman Jordan, Giandra Hutama
+//Title: Desert Drive
+//Date Completed: 4/12
+// Our artstyle was meant to emulate vintage arcade games along with sounds to match a mad-max sort of arcade game feel
+// Technically interesting, the way our game makes use of timers to both increase the y-axis of players, does the speed up, and the distance score. 
+
+
+
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,
@@ -12,6 +21,3 @@ let borderPadding = borderUISize / 3;
 
 // reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT, KeyUp, keyDown, keyA, keyD, keyW, keyS;
-
-// Our artstyle was meant to emulate vintage arcade games along with sounds to match a mad-max sort of arcade game feel
-// Technically interesting, the way our game makes use of timers to both increase the y-axis of players, does the speed up, and the distance score. 
